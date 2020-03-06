@@ -6,11 +6,11 @@ from sklearn.model_selection import  train_test_split
 
 import matplotlib.pyplot as plt
 
-def get_all_data(directory=f'{os.getcwd()}\\images_no_copies'):
-    labels = {}
+def get_all_data(directory=f'{os.getcwd()}/images_no_copies'):
+    labels = {} 
     for entry in os.scandir(directory):
-        label = entry.name
-        images = []
+        label = entry.name      # The operand / operator. Example: '2'
+        images = []             
 
         for picture in os.scandir(entry):
             image = imageio.imread(picture.path)
@@ -18,6 +18,9 @@ def get_all_data(directory=f'{os.getcwd()}\\images_no_copies'):
             images.append(training_digit)
         
         labels[label] = images
-        print(labels)
+        #print(labels)
     
     return labels
+
+labels = get_all_data()
+labels['2']
