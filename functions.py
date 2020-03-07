@@ -21,6 +21,12 @@ def get_all_data(directory=f'{os.getcwd()}/images_no_copies'):
         #print(labels)
     
     return labels
+def getList(dict): 
+    return dict.keys() 
 
 labels = get_all_data()
 labels['2']
+
+
+#find . -name "*.DS_Store" -type f -delete  
+
