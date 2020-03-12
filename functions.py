@@ -6,7 +6,8 @@ from sklearn.model_selection import  train_test_split
 
 import matplotlib.pyplot as plt
 
-def get_all_data(directory=f'{os.getcwd()}/images_no_copies'):
+def get_all_data(fName):
+    directory=f'{os.getcwd()}/'+fName
     labels = {} 
     for entry in os.scandir(directory):
         label = entry.name      # The operand / operator. Example: '2'
@@ -16,7 +17,8 @@ def get_all_data(directory=f'{os.getcwd()}/images_no_copies'):
             image = imageio.imread(picture.path)
             training_digit = color.rgb2gray(image)
             images.append(np.insert(training_digit,45,255, axis=1)) #append them with a white column to the right to prevent numbers joining
-        labels[label] = images    
+        labels[label] = images  
+    print('Test')  
     return labels
 def getList(dict): 
     return dict.keys() 
