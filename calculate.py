@@ -1,9 +1,7 @@
-from queue import Queue
-from queue import LifoQueue
 from tokenize import tokenize
 
 def solve(equation):
-    postfixQueue=Queue()
+    postfixQueue=[]
     postfixQueue=parseInfixToPostfix(equation,postfixQueue)
 
     solution = evaluatePostfix(postfixQueue)
@@ -19,59 +17,55 @@ def isOperator(character):
         return False
 
 def parseInfixToPostfix(equation,postfixQueue):
-    opStack=LifoQueue()
+    opStack=[]
     value = 0
     str = [char for char in equation]
     
     for x in str:
-        print(x)
         if x == '(':
-            opStack.put(x)
+            opStack.append(x)
         elif x == ')':
-            value=opStack.get()
-            while value!='(':
-                postfixQueue.put(value)
-                value = opStack.get()
+            while opStack[-1]!='(':
+                value = opStack.pop()
+                postfixQueue.append(value)
+            opStack.pop()
+
         elif x =='+' or x =='-' or x=='*' or x =='/':
-            if not opStack.empty():
-                value = opStack.get()
-            while not opStack.empty() and value!='(' and (precedenceOf(value)>=precedenceOf(x)):
-                postfixQueue.put(value)
-                value = opStack.get()
-            opStack.put(value)
-            opStack.put(x)
+            while len(opStack)!=0 and opStack[-1]!='(' and (precedenceOf(value)>=precedenceOf(x)):
+                value = opStack.pop()                
+                postfixQueue.append(value)
+            opStack.append(x)
         else:
-            postfixQueue.put(x)
+            postfixQueue.append(x)
     
-    while not opStack.empty():
+    while len(opStack)!=0:
 
 
-        value = opStack.get()
-        postfixQueue.put(value)
+        value = opStack.pop()
+        postfixQueue.append(value)
 
     return postfixQueue
 
 def evaluatePostfix(postfixQueue):
     solution=0.0
-    operands = LifoQueue()
+    operands = []
 
-    while not postfixQueue.empty():
-        value = postfixQueue.get()
+    while len(postfixQueue)!=0:
+        value = postfixQueue.pop(0)
         if not isOperator(value):
-            operands.put(value)
-        elif postfixQueue.empty():
-            print(here)
-            break
+            operands.append(value)
         else:
-            op1=operands.get()
-            op2=operands.get()
+            op1=operands.pop()
+            op2=operands.pop()
 
             result = executeOperation(value,op1,op2)
-            print(result)
-            operands.put(result)
+
+            operands.append(result)
+
+            #print(postfixQueue.pop(0))
     
-    solution = operands.get()
-    print(solution)
+    solution = operands.pop()
+
     return solution
 
 def precedenceOf(theOperator):
@@ -98,11 +92,9 @@ def executeOperation(op,op1,op2):
         result=op2*op1
     elif op == '/':
         result=op2/op1
-
-    print(result)
     
     return result
 
 
 
-solve("1+1")
+solve("(1+1+1)/3")
