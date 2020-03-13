@@ -1,7 +1,22 @@
 import cv2
+import os
 import numpy as np 
 from matplotlib import pyplot as plt
 import math
+
+def get_all_data_cv(fName):
+    directory=f'{os.getcwd()}/'+fName
+    labels = {} 
+    for entry in os.scandir(directory):
+        label = entry.name      # The operand / operator. Example: '2'
+        images = []             
+
+        for picture in os.scandir(entry):
+            image = cv2.imread(picture.path)
+            images.append(image) 
+        labels[label] = images  
+    print('Test')  
+    return labels
 
 def extract_number(stats, src, i):
     left = stats[i, cv2.CC_STAT_LEFT]
