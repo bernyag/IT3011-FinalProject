@@ -11,12 +11,10 @@ def get_all_data(directory=f'{os.getcwd()}/images_no_copies'):
     labels = {} 
     for entry in os.scandir(directory):
         label = entry.name      # The operand / operator. Example: '2'
-        if not label.isdigit():
-            continue
         
         images = []             
         for picture in os.scandir(entry):
-            training_digit = cv2.imread(picture.path, cv2.IMREAD_GRAYSCALE)
+            training_digit = cv2.imread(picture.path, cv2.IMREAD_GRAYSCALE) / 255
             images.append(training_digit)
         
         labels[label] = images
