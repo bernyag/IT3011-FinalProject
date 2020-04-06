@@ -158,3 +158,34 @@ def get_division_symbols(division_symbols_pairs, stats, src):
         division_symbols.append((i,image))
     return division_symbols
 #division_symbolsS
+
+def parse_image(path):
+    equations = get_all_data_cv(path)
+
+    print(len(equations))
+    count = 0
+    err_cnt = 0
+    for equ_type in equations: #[equations[x] for x in equations]:
+        #print(equ_type)
+        for equ in equations[equ_type]:
+            count += 1
+            # convert images to grayscale etc
+            num_labels, labels, stats, centroids = prepare_image(equ)
+            # split division symbols and rest into two indice pairs
+            division_symbols_pairs, digit_indices = split_division_rest(num_labels, stats)
+            # get the digits
+            digits = []
+            for i in digit_indices:
+                number = extract_number(stats, equ, i)
+                squared = make_square_out_of(number)
+                digits.append((i, squared))
+            # concatenate all symbols
+            all_symbols = digits + get_division_symbols(division_symbols_pairs, stats, equ)
+            # sort the symbols by the x coordinate, leading to a correctly sorted array
+            sorted_symbols = sorted(all_symbols, key = get_x_coord)
+
+
+    return sorted_symbols
+
+path='../generated_images'
+symbols=parse_image(path)
