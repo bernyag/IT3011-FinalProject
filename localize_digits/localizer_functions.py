@@ -72,9 +72,8 @@ def extract_square_division_symbol(pair, stats, src):
 ### more advanced FUNCTIONS
 
 
-def get_x_coord(img_pair):
-    i, _ = img_pair
-    return stats[i, cv2.CC_STAT_LEFT]
+def get_x_coord_generator(stats):
+    return lambda img_pair : stats[img_pair[0], cv2.CC_STAT_LEFT]
 
 
 # this function converts an opencv image to grayscale and runs the connectedComponents analyisis on it
@@ -182,6 +181,7 @@ def parse_image(path):
             # concatenate all symbols
             all_symbols = digits + get_division_symbols(division_symbols_pairs, stats, equ)
             # sort the symbols by the x coordinate, leading to a correctly sorted array
+            get_x_coord = get_x_coord_generator(stats)
             sorted_symbols = sorted(all_symbols, key = get_x_coord)
 
 
