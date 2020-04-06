@@ -54,10 +54,10 @@ def extract_square_number(stats, src, i):
 
 def extract_square_division_symbol(pair, stats, src):
     i, overlap = pair
-    left = stats[i + 1, cv2.CC_STAT_LEFT]
-    top = stats[i + 1, cv2.CC_STAT_TOP]
-    right = stats[i + 1, cv2.CC_STAT_WIDTH] + left
-    bottom = stats[i + 1, cv2.CC_STAT_HEIGHT] + top
+    left = stats[i, cv2.CC_STAT_LEFT]
+    top = stats[i, cv2.CC_STAT_TOP]
+    right = stats[i, cv2.CC_STAT_WIDTH] + left
+    bottom = stats[i, cv2.CC_STAT_HEIGHT] + top
     for j in overlap:
         new_left = stats[j + 1, cv2.CC_STAT_LEFT]
         new_top = stats[j + 1, cv2.CC_STAT_TOP]
@@ -115,8 +115,8 @@ def calculate_overlaps(num_labels, stats):
     #print(f"numlabel={num_labels}, sort positions={sorted_positions}")
     for i in range(0, num_labels - 1):
         # do not add duplicates
-        if is_in_other_component(overlaps, i):
-            continue
+        #if is_in_other_component(overlaps, i):
+        #    continue
         first_index = sorted_positions[i]
         left_i = stats[first_index, cv2.CC_STAT_LEFT]
         width_i = stats[first_index, cv2.CC_STAT_WIDTH]
@@ -166,8 +166,10 @@ def split_division_rest(num_labels, stats):
         i, list_of_division_operator = e
         #print(f"list to delete indices:{list_of_division_operator}, list={digit_indices}")
         digit_indices = np.delete(digit_indices, list_of_division_operator + [i])
+    
+    fix_index = [(i + 1, l) for i, l in division_symbols_pairs]
     #print(f"division symbols={division_symbols_pairs}, digits={digit_indices}")
-    return (division_symbols_pairs, digit_indices)
+    return (fix_index, digit_indices)
 
 
 # this function extracts all the division symbols from the pairs using stats and the src image
@@ -193,7 +195,7 @@ def parse_equation(equ):
     for i in digit_indices:
         number = extract_number(stats, equ, i)
         squared = make_square_out_of(number)
-        digits.append((i - 1, squared))
+        digits.append((i, squared))
     # concatenate all symbols
     all_symbols = digits + get_division_symbols(division_symbols_pairs, stats, equ)
     # sort the symbols by the x coordinate, leading to a correctly sorted array

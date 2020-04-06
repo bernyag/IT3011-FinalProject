@@ -6,6 +6,8 @@ import localizer_functions as lf # custom stuff
 import sys
 import os
 
+basepath = "localize_digits/errs/"
+
 equations = lf.get_all_data_cv('/generated_images')
 
 print(len(equations))
@@ -21,11 +23,11 @@ for equ_type in equations: #[equations[x] for x in equations]:
         if len(all_symbols) != 3:
             err_cnt += 1
             print(f"{len(all_symbols)} is the length of all symbols, name {equ_type}/{i}")
-            path = f"errs/{equ_type}/{i}/"
+            path = f"{basepath}{equ_type}/{i}/"
             if not os.path.exists(path): 
                 os.makedirs(path)
             for j in range(0, len(all_symbols)):
-                cv2.imwrite(f"errs/{equ_type}/{i}/{j}.png", all_symbols[j])
+                cv2.imwrite(f"{path}{j}.png", all_symbols[j])
         
 print(count)
 print(err_cnt)
