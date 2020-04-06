@@ -130,6 +130,25 @@ def calculate_overlaps(num_labels, stats):
                 l.append(second_index - 1)
     return overlaps
 
+def remove_overlap_duplicates(division_symbols_pairs):
+    # it might look like this: (0, [4]), (3, [0,4]) in which case we only want to keep one
+    # the one which has more overlapping parts
+    for ele_i, ele_overlaps in division_symbols_pairs:
+        # remove item
+        needs_removal = False
+        for _, other_overlaps in division_symbols_pairs:
+            # conditions for a bigger overlap: our element is part of other overlap
+            # all the elements that overlap with us are also part of the other overlap
+            # as the overlap is ordered left to right our ele_overlaps cannot contain the other_i
+            if (ele_i in other_overlaps and 
+                all(elem in other_overlaps for elem in ele_overlaps)):
+                needs_removal = True
+                break
+        if needs_removal:
+            division_symbols_pairs.remove((ele_i, ele_overlaps))
+
+    return division_symbols_pairs
+
 
 def split_division_rest(num_labels, stats):
     overlaps = calculate_overlaps(num_labels, stats)
@@ -138,6 +157,9 @@ def split_division_rest(num_labels, stats):
     # this means 1 overlaps with 2, i.e. 1 starts after 2
     # so we need to filter out all those which have a length bigger than one and handle them
     division_symbols_pairs = list(filter(lambda x: len(x[1]) > 0, overlaps))
+    
+    division_symbols_pairs = remove_overlap_duplicates(division_symbols_pairs)
+
     digit_indices = np.arange(1, num_labels)
     # now filter all division symbols from our normal array, we will handle them later
     for e in division_symbols_pairs:
@@ -158,34 +180,26 @@ def get_division_symbols(division_symbols_pairs, stats, src):
     return division_symbols
 #division_symbolsS
 
-def parse_image(path):
-    equations = get_all_data_cv(path)
-
-    print(len(equations))
-    count = 0
-    err_cnt = 0
-    for equ_type in equations: #[equations[x] for x in equations]:
-        #print(equ_type)
-        for equ in equations[equ_type]:
-            count += 1
-            # convert images to grayscale etc
-            num_labels, labels, stats, centroids = prepare_image(equ)
-            # split division symbols and rest into two indice pairs
-            division_symbols_pairs, digit_indices = split_division_rest(num_labels, stats)
-            # get the digits
-            digits = []
-            for i in digit_indices:
-                number = extract_number(stats, equ, i)
-                squared = make_square_out_of(number)
-                digits.append((i, squared))
-            # concatenate all symbols
-            all_symbols = digits + get_division_symbols(division_symbols_pairs, stats, equ)
-            # sort the symbols by the x coordinate, leading to a correctly sorted array
-            get_x_coord = get_x_coord_generator(stats)
-            sorted_symbols = sorted(all_symbols, key = get_x_coord)
-
-
-    return sorted_symbols
+# this function combines all the work done in the localizer part. 
+# An openCV image is being fed into it and an array of 
+# openCV images with the individual characters is returned
+def parse_equation(equ):
+    # convert images to grayscale etc
+    num_labels, _, stats, _ = prepare_image(equ)
+    # split division symbols and rest into two indice pairs
+    division_symbols_pairs, digit_indices = split_division_rest(num_labels, stats)
+    # get the digits
+    digits = []
+    for i in digit_indices:
+        number = extract_number(stats, equ, i)
+        squared = make_square_out_of(number)
+        digits.append((i - 1, squared))
+    # concatenate all symbols
+    all_symbols = digits + get_division_symbols(division_symbols_pairs, stats, equ)
+    # sort the symbols by the x coordinate, leading to a correctly sorted array
+    get_x_coord = get_x_coord_generator(stats) #lambda x: stats[x[0], cv2.CC_STAT_LEFT]
+    sorted_symbols = sorted(all_symbols, key = get_x_coord)
+    return [img for i, img in sorted_symbols]
 
 path='../generated_images'
-symbols=parse_image(path)
+#symbols=parse_image(path)
