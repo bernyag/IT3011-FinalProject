@@ -7,7 +7,7 @@ import cv2
 
 import matplotlib.pyplot as plt
 
-def get_all_data(directory=f'{os.getcwd()}/images_no_copies'):
+def get_all_data(directory=f'{os.getcwd()}/../images_no_copies'):
     labels = {} 
     for entry in os.scandir(directory):
         label = entry.name      # The operand / operator. Example: '2'

@@ -203,5 +203,7 @@ def parse_equation(equ):
     sorted_symbols = sorted(all_symbols, key = get_x_coord)
     return [img for i, img in sorted_symbols]
 
-path='../generated_images'
-#symbols=parse_image(path)
+path='../generated_images/0+8/0.png'
+image=cv2.imread(path)
+symbols=parse_equation(image)
+print(symbols)
