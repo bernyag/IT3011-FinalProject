@@ -1,9 +1,19 @@
 import cv2
 from localizer_functions import parse_equation
 import pickle
-path='../generated_images/0+8/9.png'
-image=cv2.imread(path) 
+from matplotlib import pyplot as plt
+path='../generated_images/0div8/1.png'
+image = cv2.imread(path) 
+print(image)
 symbols=parse_equation(image)
+
+i = 0
+for img in symbols:
+    i = i + 1
+    num = plt.subplot(1,4,i)
+    cv2.imwrite( f"{i}.png", img)
+    num.imshow(img)
+plt.show()
 #print(symbols)
 
 ##########
