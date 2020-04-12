@@ -160,12 +160,16 @@ def split_division_rest(num_labels, stats):
     
     division_symbols_pairs = remove_overlap_duplicates(division_symbols_pairs)
 
-    digit_indices = np.arange(1, num_labels)
+    digit_indices = list(range(1, num_labels))
     # now filter all division symbols from our normal array, we will handle them later
     for e in division_symbols_pairs:
         i, list_of_division_operator = e
+        #print(f"to delete: {list_of_division_operator + [i]} and {i} from {digit_indices}")
+        digit_indices.remove(i + 1)
+        for sym in list_of_division_operator:
+            digit_indices.remove(sym + 1)
         #print(f"list to delete indices:{list_of_division_operator}, list={digit_indices}")
-        digit_indices = np.delete(digit_indices, list_of_division_operator + [i])
+        #digit_indices = np.delete(digit_indices, list_of_division_operator + [i])
     
     fix_index = [(i + 1, l) for i, l in division_symbols_pairs]
     #print(f"division symbols={division_symbols_pairs}, digits={digit_indices}")
@@ -203,7 +207,7 @@ def parse_equation(equ):
     sorted_symbols = sorted(all_symbols, key = get_x_coord)
     return [img for i, img in sorted_symbols]
 
-path='../generated_images/0+8/0.png'
-image=cv2.imread(path)
-symbols=parse_equation(image)
-print(symbols)
+#path='../generated_images/0+8/0.png'
+#image=cv2.imread(path)
+#symbols=parse_equation(image)
+#print(symbols)
