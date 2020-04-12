@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import math
 import sys
-
+from contextlib import suppress
 
 def get_all_data_cv(fName):
     directory=f'{os.getcwd()}/'+fName
@@ -165,9 +165,11 @@ def split_division_rest(num_labels, stats):
     for e in division_symbols_pairs:
         i, list_of_division_operator = e
         #print(f"to delete: {list_of_division_operator + [i]} and {i} from {digit_indices}")
-        digit_indices.remove(i + 1)
+        with suppress(ValueError, AttributeError):
+            digit_indices.remove(i + 1)
         for sym in list_of_division_operator:
-            digit_indices.remove(sym + 1)
+            with suppress(ValueError, AttributeError):
+                digit_indices.remove(sym + 1)
         #print(f"list to delete indices:{list_of_division_operator}, list={digit_indices}")
         #digit_indices = np.delete(digit_indices, list_of_division_operator + [i])
     
