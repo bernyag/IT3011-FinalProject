@@ -22,7 +22,8 @@ file = np.genfromtxt('./equations/good.csv', delimiter=',')
 data = file[1:, 1:]
 changedData=[]
 for img in data:
-	img=cv2.resize(img,(45,45))
+	img=img.reshape(45,46)
+	img=np.resize(img,(45,45))
 	img=img.flatten()/255
 	changedData.append(img)
 changedData=np.asarray(changedData)
@@ -40,21 +41,8 @@ for each in labels:
 labels=np.asarray(newLabels)
 
 x_train, x_test, y_train, y_test = train_test_split(changedData, labels, test_size = 0.2, random_state = 101)
-x_train = x_train.reshape(x_train.shape[0], 45, 45)
-x_test = x_test.reshape(x_test.shape[0], 45, 45)
-plt.imshow(x_train[0])
-plt.title(y_train[0])
-plt.show()
-plt.imshow(x_train[1])
-plt.title(y_train[1])
-plt.show()
-plt.imshow(x_train[2])
-plt.title(y_train[2])
-plt.show()
-plt.imshow(x_train[3])
-plt.title(y_train[3])
-plt.show()
-
+x_train = x_train.reshape(x_train.shape[0], 45, 45,1)
+x_test = x_test.reshape(x_test.shape[0], 45, 45,1)
 x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
 # normalize inputs from 0-255 to 0-1
@@ -86,7 +74,10 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 
 
 # Fit the model
-model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=10, batch_size=200)
+model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=15, batch_size=40)
 # Final evaluation of the model
 scores = model.evaluate(x_test, y_test, verbose=0)
 print("CNN Error: %.2f%%" % (100-scores[1]*100))
+
+model.save('model.h5')
+print("Model saved as model.h5")
