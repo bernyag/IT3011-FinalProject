@@ -8,7 +8,8 @@ import os
 
 basepath = "localize_digits/errs/"
 
-equations = lf.get_all_data_cv('/generated_images')
+equations = lf.get_all_data_cv('/very_complex_img')
+expected_img_length = 5
 
 print(len(equations))
 count = 0
@@ -17,10 +18,10 @@ for equ_type in equations: #[equations[x] for x in equations]:
     #print(equ_type)
     for i, equ in enumerate(equations[equ_type]):
         count += 1
-        if equ_type == "0div0" and i == 4:
+        if equ_type == "0div7 " and i == 6:
             pass #set_trace()
         all_symbols = lf.parse_equation(equ)
-        if len(all_symbols) != 3:
+        if len(all_symbols) != expected_img_length:
             err_cnt += 1
             print(f"{len(all_symbols)} is the length of all symbols, name {equ_type}/{i}")
             path = f"{basepath}{equ_type}/{i}/"
