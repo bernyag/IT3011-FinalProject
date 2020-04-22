@@ -24,9 +24,9 @@ conda install scikit-learn=0.22
 Once all of the elements of the equation have been identified, the labels are converted into a string, for example “0/7”. This string is then passed into the solve() function. The calculator can take an equation of any length. Because of this we used a stack and a queue to convert the equation into postfix form, which would also take into account the precedence of / and * over + and -. Once the digits had been converted to integers and the whole equation was in postfix form, the entire equation could be solved using basic math and the solution was printed.
 
 ### equations/functions.py
-This notebook has three main methods:
-    \nget_array_from_images: this is used to get the images from our dataset and convert them to arrays into a saved dictionary     containing all of the images. This method was used in many of our notebooks so that we had the data in the format we           neded.
-    \nsplit_data: this method splits part of the data into test and train, we used this in the other notebooks to train our         model
+This notebook has three main methods: 
+get_array_from_images: this is used to get the images from our dataset and convert them to arrays into a saved dictionary     containing all of the images. This method was used in many of our notebooks so that we had the data in the format we           neded. 
+split_data: this method splits part of the data into test and train, we used this in the other notebooks to train our         model.
     
     
 ### equations/kfold_test.ipynb
