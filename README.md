@@ -25,8 +25,8 @@ Once all of the elements of the equation have been identified, the labels are co
 
 ### equations/functions.py
 This notebook has three main methods:
-    get_array_from_images: this is used to get the images from our dataset and convert them to arrays into a saved dictionary     containing all of the images. This method was used in many of our notebooks so that we had the data in the format we           neded.
-    split_data: this method splits part of the data into test and train, we used this in the other notebooks to train our         model
+    \nget_array_from_images: this is used to get the images from our dataset and convert them to arrays into a saved dictionary     containing all of the images. This method was used in many of our notebooks so that we had the data in the format we           neded.
+    \nsplit_data: this method splits part of the data into test and train, we used this in the other notebooks to train our         model
     
     
 ### equations/kfold_test.ipynb
