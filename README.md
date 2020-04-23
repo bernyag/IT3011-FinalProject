@@ -44,8 +44,19 @@ Description here
 ### cNNEvaluation.ipynb
 In order to run cNNEvaluation.ipynb you must have the folder images_no_copies. This file uses keras to train a convolutional neural network based on the images of handwritten digits and operations. Once the data has been read in and formatted, the training of the model will begin and you will be able to see the accuracy after each epoch. For best results, use epoch=15, batchsize=40.This file also provides additional performance scores which can be run to test the accuracy, precision, f1 score and recall of the model. The confusion matrix can also be produced in this file.
 
-### localize2.ipynb
-Description here
+### localizer
+#### localizer/localizer_functions.py
+This file has a collection of all the functions needed for the digit localization. This requires openCV (`cv2`) to be installed. The main function in this file is called `parse_equation`, the other functions are mainly helper functions. This function splits an openCV image in a list of the individual symbols our algorithm has detected.
+Additionally, this file offers `get_all_data_cv` which reads all images from a folder recursively. This works similar to the other `get_all_data`, however it uses the openCV image format.
+
+#### localizer/localize_tester.py
+Python file to test the localize functions and used for debugging. It saves misclassified (= not correct number of symbols) equations parts into an err/ folder.
+
+#### localizer/nb_localize.ipynb
+Jupyter notebook in which the `localizer_functions` are used interactively. Also used for debugging and creating the `detected_*` images. An image can be read in the first line and then subsequently analyzed. Additionally, similar to `localize_tester.py`, all images from a folder can be splitted.
+
+#### localizer/first_tests_localizer.ipynb
+The first tests in getting used to openCV and how we can use it to split images.
 
 ### my_notebook.ipynb
 Description here
