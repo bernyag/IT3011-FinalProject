@@ -36,10 +36,10 @@ This notebook was used to test cross validation and some metrics for our models.
 This was a notebook used to understand our dataset. Here we did some experiments on how to read it and how the values looked. It was not used for the solution.
 
 ### equations/my_notebook.ipynb
-Description here
+Initial notebook to test quick implementations of KNN and later SVM, with sklearn.
 
 ### equations/test_run.py
-Description here
+Similiar to equations/my_notebook.ipynb, the script runs an implemenation of SVM and prints out its metrics.
 
 ### cNNEvaluation.ipynb
 In order to run cNNEvaluation.ipynb you must have the folder images_no_copies. This file uses keras to train a convolutional neural network based on the images of handwritten digits and operations. Once the data has been read in and formatted, the training of the model will begin and you will be able to see the accuracy after each epoch. For best results, use epoch=15, batchsize=40.This file also provides additional performance scores which can be run to test the accuracy, precision, f1 score and recall of the model. The confusion matrix can also be produced in this file.
@@ -59,10 +59,10 @@ Jupyter notebook in which the `localizer_functions` are used interactively. Also
 The first tests in getting used to openCV and how we can use it to split images.
 
 ### my_notebook.ipynb
-Description here
+copy of equations/my_notebook.ipynb, but with a focus only on SVM.
 
 ### run.ipynb
-Description here
+Notebook version of trainCNN.py, to highlight every step of the training.
 
 ### runFullEquation.py
 In order to run runFullEquation.py you must have the foler generated_images which was too large to upload the entire folder to GitHub. To run runFullEquation.py the command is "python3 runFullEquation.py" . This file uses keras to train a convolutional neural network based on the images of entire equations of handwritten digits and operations. Once the data has been read in and formatted, the training of the model will begin and you will be able to see the accuracy after each epoch. 
