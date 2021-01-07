@@ -2,6 +2,7 @@
 
 ## Project description
 
+Final proyect for Machine Learning and Applications, where a Python application was created to scan handwritten numbers using Machine Learning to evaluate simple math  equations. 
 
 ### Prerequisites
 We use anaconda to manage all dependencies and packages.
